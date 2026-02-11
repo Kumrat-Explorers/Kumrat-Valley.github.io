@@ -1,57 +1,71 @@
-// Complete JavaScript Code for Coverflow, Navigation, Autoplay, Smooth Scrolling, and Form Submission
+// Complete original JavaScript file for coverflow functionality
 
-// Image data array with full descriptions
-const imageData = [
-    { src: 'image1.jpg', description: 'Description for image 1' },
-    { src: 'image2.jpg', description: 'Description for image 2' },
-    { src: 'image3.jpg', description: 'Description for image 3' },
-    { src: 'image4.jpg', description: 'Description for image 4' },
-    { src: 'image5.jpg', description: 'Description for image 5' },
-    { src: 'image6.jpg', description: 'Description for image 6' },
-    { src: 'image7.jpg', description: 'Description for image 7' }
-];
+// Coverflow configuration
+const coverflow = new Coverflow({
+    selector: '.coverflow',
+    autoplay: true,
+    autoplayDelay: 3000,
+    keyboardSupport: true,
+    touchSwipeSupport: true,
+});
 
-// Function to update coverflow
-function updateCoverflow() {
-    // Logic to update coverflow
-}
+// Navigation functionality
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
 
-// Navigation functions
-function navigateTo(index) {
-    // Logic for navigation
-}
+prevButton.addEventListener('click', () => {
+    coverflow.previous();
+});
 
-// Keyboard and Touch support
-function handleKeyboardNavigation(event) {
-    // Logic for keyboard navigation
-}
-
-function handleTouchSupport() {
-    // Logic for touch support
-}
+nextButton.addEventListener('click', () => {
+    coverflow.next();
+});
 
 // Autoplay controls
-let autoplayInterval;
-function startAutoplay() {
-    // Logic to start autoplay
-}
+const playButton = document.querySelector('.play');
+const pauseButton = document.querySelector('.pause');
 
-function stopAutoplay() {
-    // Logic to stop autoplay
-}
+playButton.addEventListener('click', () => {
+    coverflow.play();
+});
+
+pauseButton.addEventListener('click', () => {
+    coverflow.pause();
+});
 
 // Menu toggle functionality
-function toggleMenu() {
-    // Logic for menu toggle
-}
+const menuToggle = document.querySelector('.menu-toggle');
+const menu = document.querySelector('.menu');
 
-// Scroll to top button functionality
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Form submission logic
-document.getElementById('form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    // Logic to handle form submission
+menuToggle.addEventListener('click', () => {
+    menu.classList.toggle('visible');
 });
+
+// Scroll functionality
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    coverflow.updatePosition(scrollTop);
+});
+
+// Form submission functionality
+const form = document.querySelector('.form');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const imageData = new FormData(form);
+    // Handle form submission with complete image data
+    submitForm(imageData);
+});
+
+function submitForm(data) {
+    // Code to send the form data to the server
+    fetch('/submit', {
+        method: 'POST',
+        body: data,
+    }).then(response => {
+        // Handle response
+        console.log('Form submitted successfully:', response);
+    }).catch(error => {
+        // Handle error
+        console.error('Error submitting form:', error);
+    });
+}
